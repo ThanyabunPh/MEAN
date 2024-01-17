@@ -1,0 +1,50 @@
+<ul class="menu rounded-box">
+  <li>
+    <a (click)="filterTodosByType('all')" [ngClass]="{'active': selected_type === 'all'}" class="flex flex-row active">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+      </svg>
+      <p class="text-1xl ml-5"> Home </p>
+    </a>
+  </li>
+  <li>
+    <a (click)="filterTodosByType('Fast_Important')" [ngClass]="{'active': selected_type === 'Fast_Important'}" class="flex flex-row">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+           class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"/>
+      </svg>
+      <p class="text-1xl ml-5"> Fast & Important </p>
+    </a>
+  </li>
+  <li>
+    <a (click)="filterTodosByType('Important')" [ngClass]="{'active': selected_type === 'Important'}" class="tflex flex-row">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+              d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+      <p class="text-1xl ml-5"> Important </p>
+    </a>
+  </li>
+  <li>
+    <a (click)="filterTodosByType('Fast')" [ngClass]="{'active': selected_type === 'Fast'}" class="flex flex-row">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+           class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="m3.75 13.5 10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75Z"/>
+      </svg>
+      <p class="text-1xl ml-5"> Fast </p>
+    </a>
+  </li>
+  <li>
+    <a (click)="filterTodosByType('Normal')" [ngClass]="{'active': selected_type === 'Normal'}" class="flex flex-row">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+           class="w-6 h-6">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M11.412 15.655 9.75 21.75l3.745-4.012M9.257 13.5H3.75l2.659-2.849m2.048-2.194L14.25 2.25 12 10.5h8.25l-4.707 5.043M8.457 8.457 3 3m5.457 5.457 7.086 7.086m0 0L21 21"/>
+      </svg>
+      <p class="text-1xl ml-5"> No Priority </p>
+    </a>
+  </li>
+</ul>

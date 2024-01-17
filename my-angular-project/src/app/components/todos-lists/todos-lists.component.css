@@ -1,0 +1,7 @@
+.container .flex-row {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  justify-content: center; /* Center children horizontally in the container */
+  align-items: center; /* Center children vertically in the container */
+  width: 100%; /* Take full width of the container */
+}

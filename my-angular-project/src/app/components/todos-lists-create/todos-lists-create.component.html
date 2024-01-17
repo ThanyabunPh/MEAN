@@ -1,0 +1,41 @@
+<div id="todo_body" class="mx-auto w-1/2 mt-1 shadow-lg rounded-lg bg-white border-2 border-gray-300"
+     (click)="showInput()">
+  <input [(ngModel)]="note_title" *ngIf="todo_names" id="input_note1" class="rounded-r p-3 focus:outline-none w-full" type="text"
+         placeholder="ชื่อ">
+  <input [(ngModel)]="note_des" id="input_note2" type="text" class="rounded-r p-3 focus:outline-none w-full" placeholder="จดโน้ต...">
+  <div *ngIf="(todo_tag) && selected_type != null" id="tag_note" class="m-3 badge badge-outline">{{ selected_type == 'Fast_Important' ? 'Fast & Important'  :  selected_type }}
+  </div>
+  <div *ngIf="panel_control" class="flex justify-between" data-cy="panel_control" >
+    <div class="basis-5/6 p-3">
+      <form class="flex flex-row justify-around">
+        <div
+          *ngFor="let color of ['#FFFFFF', '#fca5a5',  '#fdba74',
+          '#fcd34d', '#fde047', '#bef264',
+          '#7dd3fc', '#d8b4fe', '#cbd5e1']"
+          [id]="color"
+          [ngStyle]="{ 'background-color': color }"
+          [class]="color === selectedColor ? 'w-8 h-8  rounded-full cursor-pointer ring-2 ring-offset-2 ring-' + color + '-300' : 'w-8 h-8 rounded-full cursor-pointer border-2 border-gray-300'"
+          (click)="selectColor(color)">
+          <input type="radio" name="color" [value]="color" class="sr-only" [checked]="color === selectedColor">
+        </div>
+        <div tabindex="0" role="button"
+             class="w-8 h-8 flex rounded-full justify-center items-center dropdown dropdown-bottom dropdown-end">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M12 6.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 12.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5ZM12 18.75a.75.75 0 1 1 0-1.5.75.75 0 0 1 0 1.5Z"/>
+          </svg>
+          <ul tabindex="0" class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+            <li (click)="selectItem('Fast & Important')"><a>Fast & Important</a></li>
+            <li (click)="selectItem('Important')"><a>Important</a></li>
+            <li (click)="selectItem('Fast')"><a>Fast</a></li>
+            <li (click)="selectItem('Normal')"><a>Normal</a></li>
+          </ul>
+        </div>
+      </form>
+    </div>
+    <div class="basis-1/6 flex justify-end items-center">
+      <button class="btn  btn-ghost border-2" (click)="hideInput()">ปิด</button>
+    </div>
+  </div>
+</div>

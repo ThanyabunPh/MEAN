@@ -1,0 +1,14 @@
+<app-navbar></app-navbar>
+<div class="flex flex-row  min-h-screen">
+  <div class="basis-3/12 p-1">
+    <app-todos-categorical-controller
+      [filterTodos]="filterTodos"
+      [selected_type]="selected_type"
+    ></app-todos-categorical-controller>
+  </div>
+  <div class="basis-9/12">
+    <app-todos-lists
+      [todoLists]="todosLists"
+    ></app-todos-lists>
+  </div>
+</div>

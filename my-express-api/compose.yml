@@ -1,0 +1,16 @@
+version: '3'
+services:
+  my-express-api:
+    build: .
+    environment:
+      - MONGODB_URL=mongodb://mongo-db-app:27017/database
+    ports:
+      - '3000:3000'
+    depends_on:
+      - mongo-db-app
+
+  mongo-db-app:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
