@@ -48,13 +48,15 @@ npx cypress open
 ### Docker Compose
 
 เปิด Container ของ Angular ด้วย Docker Compose
+- Ip ของระบบ : http://localhost:80
 ```
 cd .\my-angular-project\
 
 docker-compose up --build
 ```
-
 เปิด Container ของ MongoDB และ ExpressJS ด้วย Docker Compose
+- Ip ของระบบ : http://localhost:3000
+
 ```
 cd .\my-express-api\
 
