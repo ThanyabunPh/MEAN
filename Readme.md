@@ -1,7 +1,7 @@
 # todo-list-app
 ระบบ todo list ที่สามารถเพื่ม ลบ อ่าน เขียนและแก้ไขได้โดยใช้ Angular Framework และ Backend อย่าง ExpressJS ที่ใช้ภาษาอย่าง TypeScript และ Database คือ MongoDB
 
-![Preview]('https://img5.pic.in.th/file/secure-sv1/main56aad7f7888d6872.png')
+![Preview]('./preview/main_preview.png')
 
 
 ## Tech Stack
@@ -32,10 +32,17 @@ npm install
 npx cypress open
 ```
 จากนั้นสามารถเลือกทดสอบได้ทั้ง E2E และ Unit Test ของระบบ
+![cypress]('./preview/cypress.png')
 
 ### การทดสอบระบบด้วย Postman
 ไฟล์ของ Postman สามารถนำไปใช้งานได้ทันทีโดยเปิดไฟล์ที่อยู่ใน 
-`./my-express-api/api-test/todos.postman_collection.json`
+```
+./my-express-api/api-test/todos.postman_collection.json
+```
+#### **PS** 
+- ต้องเปิดระบบก่อนการทดสอบ
+- ในขั้นตอนการแก้ไขและลบของข้อมูลอาจจะต้องอ้างอิงไปยัง ID ของข้อมูลที่ต้องการแก้ไขและลบ
+
 
 ## การติดตั้งระบบ
 ### Docker Compose
@@ -54,5 +61,5 @@ cd .\my-express-api\
 docker-compose up --build
 ```
 
-![docker]('https://img2.pic.in.th/pic/Docker.png')
+![docker]('./preview/docker.png')
 

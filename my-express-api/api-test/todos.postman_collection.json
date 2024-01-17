@@ -1,0 +1,1009 @@
+{
+	"info": {
+		"_postman_id": "a4271dd8-438f-4543-81e1-2e7991a48bc8",
+		"name": "todos",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14377064"
+	},
+	"item": [
+		{
+			"name": "normal_get_root",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required fields - version, name, and author\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData).to.have.property('version');\r",
+							"    pm.expect(responseData).to.have.property('name');\r",
+							"    pm.expect(responseData).to.have.property('author');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Version is a non-empty string\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseData).to.be.an('object');\r",
+							"  pm.expect(responseData.version).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Version should not be empty\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Author field should not be null\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData.author).to.not.be.null;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "normal_getAllNote",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is an object with todos property\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('todos');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has correct structure\", function () {\r",
+							"    let responseJson = pm.response.json();\r",
+							"\r",
+							"    // Check if 'todos' is an array and not empty\r",
+							"    pm.expect(responseJson).to.have.property('todos').that.is.an('array').that.is.not.empty;\r",
+							"\r",
+							"    // Get the first item in the 'todos' array for testing\r",
+							"    let firstTodo = responseJson.todos[2];\r",
+							"\r",
+							"    // Check if all expected properties are present in the first todo item\r",
+							"    pm.expect(firstTodo).to.have.property('_id');\r",
+							"    pm.expect(firstTodo).to.have.property('title');\r",
+							"    pm.expect(firstTodo).to.have.property('noted');\r",
+							"    pm.expect(firstTodo).to.have.property('color');\r",
+							"    pm.expect(firstTodo).to.have.property('timestamp');\r",
+							"    pm.expect(firstTodo).to.have.property('__v');\r",
+							"\r",
+							"    // Additional tests for data types\r",
+							"    pm.expect(firstTodo._id).to.be.a('string');\r",
+							"    pm.expect(firstTodo.title).to.be.a('string');\r",
+							"    pm.expect(firstTodo.noted).to.be.a('string');\r",
+							"    pm.expect(firstTodo.color).to.be.a('string');\r",
+							"    pm.expect(firstTodo.timestamp).to.be.a('string'); // or use a date validation library\r",
+							"    pm.expect(firstTodo.__v).to.be.a('number');\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/todo",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "normal_getNoteByType - Fast_Important",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is an object with todos property\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('todos');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has correct structure\", function () {\r",
+							"    let responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.have.property('todos').that.is.an('array').that.is.not.empty;\r",
+							"\r",
+							"    let firstTodo = responseJson.todos[0];\r",
+							"\r",
+							"    pm.expect(firstTodo).to.have.property('_id');\r",
+							"    pm.expect(firstTodo).to.have.property('title');\r",
+							"    pm.expect(firstTodo).to.have.property('noted');\r",
+							"    pm.expect(firstTodo).to.have.property('color');\r",
+							"    pm.expect(firstTodo).to.have.property('todo_type')\r",
+							"    pm.expect(firstTodo).to.have.property('timestamp');\r",
+							"    pm.expect(firstTodo).to.have.property('__v');\r",
+							"\r",
+							"    // Additional tests for data types\r",
+							"    pm.expect(firstTodo._id).to.be.a('string');\r",
+							"    pm.expect(firstTodo.title).to.be.a('string');\r",
+							"    pm.expect(firstTodo.noted).to.be.a('string');\r",
+							"    pm.expect(firstTodo.color).to.be.a('string');\r",
+							"    pm.expect(firstTodo.todo_type).to.a('string');\r",
+							"    pm.expect(firstTodo.timestamp).to.be.a('string'); // or use a date validation library\r",
+							"    pm.expect(firstTodo.__v).to.be.a('number');\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response Must have type to Fast_Important\", function () {\r",
+							"    let responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.have.property('todos').that.is.an('array').that.is.not.empty;\r",
+							"\r",
+							"    let firstTodo = responseJson.todos[0];\r",
+							"\r",
+							"    pm.expect(firstTodo).to.have.property('_id');\r",
+							"    pm.expect(firstTodo).to.have.property('title');\r",
+							"    pm.expect(firstTodo).to.have.property('noted');\r",
+							"    pm.expect(firstTodo).to.have.property('color');\r",
+							"    pm.expect(firstTodo).to.have.property('todo_type')\r",
+							"    pm.expect(firstTodo).to.have.property('timestamp');\r",
+							"    pm.expect(firstTodo).to.have.property('__v');\r",
+							"\r",
+							"    pm.expect(firstTodo.todo_type).to.equal('Fast_Important')\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/todo/Fast_Important",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo",
+						"Fast_Important"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "normal_getNoteByType - important",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is an object with todos property\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('todos');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has correct structure\", function () {\r",
+							"    let responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.have.property('todos').that.is.an('array').that.is.not.empty;\r",
+							"\r",
+							"    let firstTodo = responseJson.todos[0];\r",
+							"\r",
+							"    pm.expect(firstTodo).to.have.property('_id');\r",
+							"    pm.expect(firstTodo).to.have.property('title');\r",
+							"    pm.expect(firstTodo).to.have.property('noted');\r",
+							"    pm.expect(firstTodo).to.have.property('color');\r",
+							"    pm.expect(firstTodo).to.have.property('todo_type')\r",
+							"    pm.expect(firstTodo).to.have.property('timestamp');\r",
+							"    pm.expect(firstTodo).to.have.property('__v');\r",
+							"\r",
+							"    // Additional tests for data types\r",
+							"    pm.expect(firstTodo._id).to.be.a('string');\r",
+							"    pm.expect(firstTodo.title).to.be.a('string');\r",
+							"    pm.expect(firstTodo.noted).to.be.a('string');\r",
+							"    pm.expect(firstTodo.color).to.be.a('string');\r",
+							"    pm.expect(firstTodo.todo_type).to.a('string');\r",
+							"    pm.expect(firstTodo.timestamp).to.be.a('string'); // or use a date validation library\r",
+							"    pm.expect(firstTodo.__v).to.be.a('number');\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response Must have type to Important\", function () {\r",
+							"    let responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.have.property('todos').that.is.an('array').that.is.not.empty;\r",
+							"\r",
+							"    let firstTodo = responseJson.todos[0];\r",
+							"\r",
+							"    pm.expect(firstTodo).to.have.property('_id');\r",
+							"    pm.expect(firstTodo).to.have.property('title');\r",
+							"    pm.expect(firstTodo).to.have.property('noted');\r",
+							"    pm.expect(firstTodo).to.have.property('color');\r",
+							"    pm.expect(firstTodo).to.have.property('todo_type')\r",
+							"    pm.expect(firstTodo).to.have.property('timestamp');\r",
+							"    pm.expect(firstTodo).to.have.property('__v');\r",
+							"\r",
+							"    pm.expect(firstTodo.todo_type).to.equal('Important')\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/todo/Important",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo",
+						"Important"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "normal_getNoteByType - Fast",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is an object with todos property\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('todos');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has correct structure\", function () {\r",
+							"    let responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.have.property('todos').that.is.an('array').that.is.not.empty;\r",
+							"\r",
+							"    let firstTodo = responseJson.todos[0];\r",
+							"\r",
+							"    pm.expect(firstTodo).to.have.property('_id');\r",
+							"    pm.expect(firstTodo).to.have.property('title');\r",
+							"    pm.expect(firstTodo).to.have.property('noted');\r",
+							"    pm.expect(firstTodo).to.have.property('color');\r",
+							"    pm.expect(firstTodo).to.have.property('todo_type')\r",
+							"    pm.expect(firstTodo).to.have.property('timestamp');\r",
+							"    pm.expect(firstTodo).to.have.property('__v');\r",
+							"\r",
+							"    // Additional tests for data types\r",
+							"    pm.expect(firstTodo._id).to.be.a('string');\r",
+							"    pm.expect(firstTodo.title).to.be.a('string');\r",
+							"    pm.expect(firstTodo.noted).to.be.a('string');\r",
+							"    pm.expect(firstTodo.color).to.be.a('string');\r",
+							"    pm.expect(firstTodo.todo_type).to.a('string');\r",
+							"    pm.expect(firstTodo.timestamp).to.be.a('string'); // or use a date validation library\r",
+							"    pm.expect(firstTodo.__v).to.be.a('number');\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response Must have type to Fast\", function () {\r",
+							"    let responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.have.property('todos').that.is.an('array').that.is.not.empty;\r",
+							"\r",
+							"    let firstTodo = responseJson.todos[0];\r",
+							"\r",
+							"    pm.expect(firstTodo).to.have.property('_id');\r",
+							"    pm.expect(firstTodo).to.have.property('title');\r",
+							"    pm.expect(firstTodo).to.have.property('noted');\r",
+							"    pm.expect(firstTodo).to.have.property('color');\r",
+							"    pm.expect(firstTodo).to.have.property('todo_type')\r",
+							"    pm.expect(firstTodo).to.have.property('timestamp');\r",
+							"    pm.expect(firstTodo).to.have.property('__v');\r",
+							"\r",
+							"    pm.expect(firstTodo.todo_type).to.equal('Fast')\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/todo/Fast",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo",
+						"Fast"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "normal_getNoteByType - Normal",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response is an object with todos property\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('todos');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has correct structure\", function () {\r",
+							"    let responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.have.property('todos').that.is.an('array').that.is.not.empty;\r",
+							"\r",
+							"    let firstTodo = responseJson.todos[0];\r",
+							"\r",
+							"    pm.expect(firstTodo).to.have.property('_id');\r",
+							"    pm.expect(firstTodo).to.have.property('title');\r",
+							"    pm.expect(firstTodo).to.have.property('noted');\r",
+							"    pm.expect(firstTodo).to.have.property('color');\r",
+							"    pm.expect(firstTodo).to.have.property('todo_type')\r",
+							"    pm.expect(firstTodo).to.have.property('timestamp');\r",
+							"    pm.expect(firstTodo).to.have.property('__v');\r",
+							"\r",
+							"    // Additional tests for data types\r",
+							"    pm.expect(firstTodo._id).to.be.a('string');\r",
+							"    pm.expect(firstTodo.title).to.be.a('string');\r",
+							"    pm.expect(firstTodo.noted).to.be.a('string');\r",
+							"    pm.expect(firstTodo.color).to.be.a('string');\r",
+							"    pm.expect(firstTodo.todo_type).to.a('string');\r",
+							"    pm.expect(firstTodo.timestamp).to.be.a('string'); // or use a date validation library\r",
+							"    pm.expect(firstTodo.__v).to.be.a('number');\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response Must have type to Normal\", function () {\r",
+							"    let responseJson = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseJson).to.have.property('todos').that.is.an('array').that.is.not.empty;\r",
+							"\r",
+							"    let firstTodo = responseJson.todos[0];\r",
+							"\r",
+							"    pm.expect(firstTodo).to.have.property('_id');\r",
+							"    pm.expect(firstTodo).to.have.property('title');\r",
+							"    pm.expect(firstTodo).to.have.property('noted');\r",
+							"    pm.expect(firstTodo).to.have.property('color');\r",
+							"    pm.expect(firstTodo).to.have.property('todo_type')\r",
+							"    pm.expect(firstTodo).to.have.property('timestamp');\r",
+							"    pm.expect(firstTodo).to.have.property('__v');\r",
+							"\r",
+							"    pm.expect(firstTodo.todo_type).to.equal('Normal')\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/todo/Normal",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo",
+						"Normal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "normal_posting_todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 201\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(201);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required field 'message'\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.message).to.exist;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Message is a non-empty string\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"\r",
+							"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"title\": \"Hello world Noted\",\r\n    \"noted\": \"This is test from Postman\",\r\n    \"color\": \"#FFFFFF\",\r\n    \"todo_type\": \"Fast_Important\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todo",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "normal_put_todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content type is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Timestamp is in the correct format\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData.updatedTodo.timestamp).to.match(/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}.\\d{3}Z$/);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Ensure that the message field is empty\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseData).to.be.an('object');\r",
+							"  pm.expect(responseData.message).to.equal(\"Todo updated\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"todoID\": \"65a7f0339209b106a3056b12\",\r\n    \"title\": \"Updated title from postman\",\r\n    \"noted\": \"Update description from postman\",\r\n    \"color\": \"#FFFFFF\",\r\n    \"todo_type\": \"Normal\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todo",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "normal_delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required Content-Type header with value application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Message in the response is a non-empty string\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Verify that the response body is not empty\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  \r",
+							"  pm.expect(responseData).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Ensure that the response message is as expected\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"\r",
+							"  pm.expect(responseData).to.be.an('object');\r",
+							"  pm.expect(responseData.message).to.equal(\"Todo deleted successfully\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"todoID\": \"65a7e5f29209b106a3056ad6\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todo",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Abnormal_get_root",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 404\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(404);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required field 'message'\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData).to.have.property('message');\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Message is a non-empty string\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    \r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response body is not empty\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  pm.expect(responseData).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/ /",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						" ",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Abnormal_getAllNote",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 404\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(404);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required field 'message'\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData).to.have.property('message');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Message is a non-empty string\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"\r",
+							"    pm.expect(responseData).to.be.an('object');\r",
+							"    pm.expect(responseData.message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Value should not be empty\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body is not empty\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  pm.expect(responseData).to.not.be.empty;\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/todooo",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todooo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Abnormal_getNoteByType",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"pm.test(\"Response status code is 200\", function () {\r",
+							"    pm.expect(pm.response.code).to.equal(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response has the required field 'message'\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    pm.expect(responseData).to.not.have.property('message');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Response body is not empty\", function () {\r",
+							"  const responseData = pm.response.json();\r",
+							"  pm.expect(responseData).to.not.be.empty;\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"The todos array length must be 0\", function () {\r",
+							"    const responseData = pm.response.json();\r",
+							"    const todos = responseData.todos;\r",
+							"    pm.expect(todos).to.be.an('array').and.to.have.lengthOf(0);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/todo/Fast_Import",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo",
+						"Fast_Import"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Abnormal_posting_todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has the required field 'message'\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('message');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message is a non-empty string\", function () {\r",
+							"    pm.expect(pm.response.json().message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itle\": \"Hello world Noted\",\r\n    \"nted\": \"This is test from Postman\",\r\n    \"colo\": \"#FFFFFF\",\r\n    \"tod_type\": \"Fast_Important\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todo",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Abnormal_put_todo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content type is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message is a non-empty string and equals 'Todo not found'\", function () {\r",
+							"    pm.expect(pm.response.json().message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+							"    pm.expect(pm.response.json().message).to.equal(\"Todo not found\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has the required field 'message'\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('message');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message is a non-empty string\", function () {\r",
+							"    pm.expect(pm.response.json().message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"todoID\": \"65a7eaa09209b106a3056af7\",\r\n    \"title\": \"Updated title from postman\",\r\n    \"noted\": \"Update description from postman\",\r\n    \"color\": \"#FFFFFF\",\r\n    \"todo_type\": \"Normal\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todo",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "normal_delete Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Response status code is 500\", function () {\r",
+							"    pm.response.to.have.status(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content type is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message is a non-empty string and equals 'Todo not found'\", function () {\r",
+							"    pm.expect(pm.response.json().message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+							"    pm.expect(pm.response.json().message).to.include(\"Cast to ObjectId failed for value\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is application/json\", function () {\r",
+							"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response has the required field 'message'\", function () {\r",
+							"    pm.expect(pm.response.json()).to.be.an('object').that.has.property('message');\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Message is a non-empty string\", function () {\r",
+							"    pm.expect(pm.response.json().message).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Message should not be empty\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"todoID\": \"65a7eaa09209b106a306af7\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/todo",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"todo"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
