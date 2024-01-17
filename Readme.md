@@ -1,7 +1,7 @@
 # todo-list-app
 ระบบ todo list ที่สามารถเพื่ม ลบ อ่าน เขียนและแก้ไขได้โดยใช้ Angular Framework และ Backend อย่าง ExpressJS ที่ใช้ภาษาอย่าง TypeScript และ Database คือ MongoDB
 
-![image]('https://img5.pic.in.th/file/secure-sv1/main56aad7f7888d6872.png')
+![Preview]('https://img5.pic.in.th/file/secure-sv1/main56aad7f7888d6872.png')
 
 
 ## Tech Stack
@@ -54,5 +54,5 @@ cd .\my-express-api\
 docker-compose up --build
 ```
 
-![image]('https://img2.pic.in.th/pic/Docker.png')
+![docker]('https://img2.pic.in.th/pic/Docker.png')
 
